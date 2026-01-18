@@ -1,0 +1,50 @@
+@startuml DFD_Level_0_Context
+!theme plain
+left to right direction
+skinparam roundCorner 10
+
+' --- CẤU HÌNH GIAO DIỆN (THEME WOAY) ---
+skinparam rectangle {
+    BorderColor #333333
+    Shadowing false
+}
+
+' 1. Tác nhân (External Entity) - Hình chữ nhật vuông
+skinparam rectangle<<Actor>> {
+    BackgroundColor White
+    BorderColor #003366
+    FontColor #003366
+    FontStyle Bold
+}
+
+' 2. Hệ thống (Process 0) - Hình bo tròn, màu Cam nổi bật
+skinparam rectangle<<System>> {
+    BackgroundColor #FF6600
+    BorderColor #CC5200
+    FontColor White
+    FontSize 16
+    FontStyle Bold
+    RoundCorner 50
+}
+
+' --- ĐỊNH NGHĨA CÁC KHỐI ---
+
+rectangle "MC / QUẢN TRÒ\n(Admin)" as MC <<Actor>>
+rectangle "WOAYER / NHÂN VIÊN\n(Player)" as Player <<Actor>>
+
+' Hệ thống nằm giữa - Đại diện cho toàn bộ Mini-game
+rectangle "HỆ THỐNG\nWOAY TRIVIA BLAST" as System <<System>>
+
+' --- LUỒNG DỮ LIỆU (DATA FLOW) ---
+
+' 1. Luồng MC (Quản trị & Điều khiển)
+MC --> System : 1. Cấu hình phòng (Nhạc, QR)\n2. Bộ câu hỏi (Data/Excel)\n3. Lệnh điều khiển (Start, Next)
+
+System --> MC : 1. Thông tin Sảnh chờ (Số lượng người)\n2. Bảng xếp hạng (Leaderboard)\n3. Thống kê đáp án (Real-time)
+
+' 2. Luồng Player (Tương tác)
+Player --> System : 1. Yêu cầu tham gia (Join)\n2. Thông tin định danh (Tên/Avatar)\n3. Câu trả lời (Màu sắc)
+
+System --> Player : 1. Trạng thái kết nối (Thành công/Lỗi)\n2. Nội dung câu hỏi & Đáp án\n3. Kết quả cá nhân (Điểm/Meme)
+
+@enduml

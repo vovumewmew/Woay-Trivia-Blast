@@ -1,0 +1,60 @@
+@startuml Seq_Player
+!theme plain
+autonumber "<b>[00]"
+
+' --- ĐỊNH NGHĨA THÀNH PHẦN ---
+actor "Người chơi (Woayer)" as Player
+participant "Mobile App\n(ReactJS)" as App
+participant "Game Server\n(Socket.IO)" as Server
+database "Database\n(Redis/RAM)" as DB
+
+' --- LUỒNG CHÍNH ---
+
+== Giai đoạn 1: Nhận câu hỏi ==
+Server ->> App : Sự kiện: NEW_QUESTION (Data câu hỏi)
+activate App
+App -> App : Tải giao diện 4 nút màu
+App -> Player : Hiển thị câu hỏi & Đếm ngược 15s
+deactivate App
+
+== Giai đoạn 2: Trả lời (Đua tốc độ) ==
+Player -> App : Bấm chọn đáp án (Ví dụ: Màu Vàng)
+activate App
+
+' App gửi thời gian bấm để tính điểm chính xác
+App -> Server : Gửi: SUBMIT_ANSWER (AnswerID, Timestamp)
+activate Server
+    note right
+      Payload: {
+        playerId: "user123",
+        answer: "B",
+        timeLeft: 14.5s
+      }
+    end note
+
+    Server -> DB : Lấy Đáp án đúng (CorrectID)
+    activate DB
+    DB --> Server : Return: "B"
+    deactivate DB
+
+    Server -> Server : So khớp & Tính điểm\n(Base + Time Bonus)
+    
+    ' Lưu điểm ngay lập tức
+    Server -> DB : Update Score (+900 điểm)
+    activate DB
+    DB --> Server : OK
+    deactivate DB
+
+    Server -->> App : Trả về: RESULT (Đúng/Sai, Điểm, MemeURL)
+deactivate Server
+
+== Giai đoạn 3: Phản hồi UI ==
+alt Trả lời ĐÚNG
+    App -> Player : Hiện Meme "Tuyệt vời!" + Hiệu ứng nổ pháo
+else Trả lời SAI
+    App -> Player : Hiện Meme "Chia buồn..." + Màn hình xám
+end
+
+deactivate App
+
+@enduml

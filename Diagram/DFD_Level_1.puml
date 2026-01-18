@@ -1,0 +1,64 @@
+@startuml DFD_Level_1
+!theme plain
+left to right direction
+skinparam roundCorner 10
+
+' --- KÝ HIỆU ---
+skinparam rectangle {
+    BackgroundColor White
+    BorderColor Black
+    FontStyle Bold
+}
+skinparam usecase {
+    BackgroundColor #F0F8FF
+    BorderColor Blue
+    ArrowColor Black
+}
+skinparam database {
+    BackgroundColor White
+    BorderColor Black
+}
+
+' --- CÁC THÀNH PHẦN ---
+
+' 1. Tác nhân
+rectangle "MC (Quản trò)" as MC
+rectangle "Player (Nhân viên)" as Player
+
+' 2. Các Process chính (Mức 1)
+(1.0 Quản lý Sảnh & Kết nối) as P1
+(2.0 Điều khiển Vòng chơi) as P2
+(3.0 Xử lý Trả lời & Tính điểm) as P3
+(4.0 Tổng hợp & Vinh danh) as P4
+
+' 3. Kho dữ liệu
+database "D1. Danh sách Người chơi" as DB_Player
+database "D2. Ngân hàng Câu hỏi\n(File data.js)" as DB_Question
+database "D3. Bảng điểm (Scoreboard)" as DB_Score
+
+' --- LUỒNG DỮ LIỆU (DATA FLOW) ---
+
+' Luồng MC
+MC --> P1 : Cấu hình/Mở phòng
+MC --> P2 : Lệnh Start/Next
+
+' Luồng Player
+Player --> P1 : Join (Tên, Mã QR)
+P1 --> Player : Trạng thái kết nối
+Player --> P3 : Gửi đáp án (Màu sắc)
+
+' Luồng nội bộ & Kho dữ liệu
+P1 --> DB_Player : Lưu thông tin User
+DB_Player --> P2 : Lấy số lượng người online
+
+P2 --> DB_Question : Lấy nội dung câu hỏi
+P2 --> P3 : Kích hoạt câu hỏi hiện tại
+DB_Question --> P3 : Lấy đáp án đúng (CorrectID)
+
+P3 --> DB_Score : Ghi điểm (Cộng dồn)
+DB_Score --> P4 : Truy vấn Top 5
+
+P4 --> MC : Hiển thị BXH
+P4 --> Player : Hiển thị Kết quả/Meme
+
+@enduml

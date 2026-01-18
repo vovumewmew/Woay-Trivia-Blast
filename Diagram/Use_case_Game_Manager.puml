@@ -1,0 +1,77 @@
+@startuml Use_case_Admin
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Quản trò (Admin/MC)" as Admin
+
+package "Hệ thống Quản trị (Web Dashboard)" {
+
+    ' --- NHÓM 1: QUẢN LÝ BỘ CÂU HỎI (PREPARE) ---
+    usecase "Quản lý Bộ câu hỏi" as ManageBank
+    usecase "Tạo câu hỏi mới" as CreateQ
+    usecase "Import từ file (Excel/JSON)" as Import
+    usecase "Tải ảnh minh họa/Meme" as UploadImg
+    usecase "Thiết lập thời gian trả lời" as SetTimer
+
+    ' --- NHÓM 2: QUẢN LÝ SẢNH (LOBBY) ---
+    usecase "Mở phòng game (Open Room)" as OpenRoom
+    usecase "Cấu hình Sảnh\n(Nhạc nền, QR Code)" as ConfigLobby
+    usecase "Quản lý người chơi" as ManagePlayer
+    usecase "Mời người chơi ra khỏi phòng (Kick)" as Kick
+
+    ' --- NHÓM 3: ĐIỀU KHIỂN TRẬN ĐẤU (LIVE GAME) ---
+    usecase "Điều khiển Vòng chơi" as ControlGame
+    usecase "Bắt đầu (Start Game)" as Start
+    usecase "Chuyển câu hỏi (Next)" as Next
+    usecase "Công bố đáp án (Show Result)" as ShowResult
+    
+    ' --- NHÓM 4: THỐNG KÊ & KẾT THÚC ---
+    usecase "Xem Bảng Xếp Hạng (Leaderboard)" as ViewRank
+    usecase "Kết thúc game" as EndGame
+    usecase "Trao giải" as Award
+
+    ' === MỐI QUAN HỆ ===
+
+    ' 1. Quản lý câu hỏi (Thay thế việc sửa file data.js)
+    Admin --> ManageBank
+    ManageBank ..> CreateQ : <<include>>
+    ' Import file giúp nhập nhanh hàng loạt câu hỏi
+    ManageBank <.. Import : <<extend>>
+    
+    ' Khi tạo câu hỏi thì phải có ảnh và chỉnh giờ (dựa trên SRS mục IV)
+    CreateQ ..> UploadImg : <<include>>
+    CreateQ ..> SetTimer : <<include>>
+
+    ' 2. Mở phòng & Sảnh chờ
+    Admin --> OpenRoom
+    OpenRoom ..> ConfigLobby : <<include>>
+    
+    ' Quản lý người chơi là tùy chọn (chỉ làm khi có người đặt tên bậy)
+    Admin --> ManagePlayer
+    ManagePlayer <.. Kick : <<extend>>
+
+    ' 3. Điều khiển game (Flow chính của MC)
+    Admin --> ControlGame
+    ControlGame ..> Start : <<include>>
+    ControlGame ..> Next : <<include>>
+    ControlGame ..> ShowResult : <<include>>
+    
+
+    ' 4. Kết thúc
+    Admin --> ViewRank
+    ViewRank <.. Award: <<extend>>
+    Admin --> EndGame
+
+    ' Ghi chú kỹ thuật
+    note right of Import
+      Thay vì sửa file data.js
+      như SRS yêu cầu, Admin có thể
+      nạp dữ liệu từ Excel cho nhanh.
+    end note
+
+    note bottom of SetTimer
+      Cấu hình thời gian theo độ khó:
+      Câu dễ: 10s, Câu khó: 30s
+    end note
+}
+@enduml

@@ -1,0 +1,94 @@
+@startuml Class_WoayTrivia
+' Cấu hình giao diện
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor #333333
+}
+skinparam classAttributeIconSize 0
+
+' --- ĐỊNH NGHĨA CÁC LỚP (ENTITIES) ---
+
+class "Player (Người chơi)" as Player {
+    + id: String
+    + nickname: String
+    + score: Integer
+    + socketId: String
+    + streak: Integer
+    --
+    + joinGame(pinCode: String)
+    + submitAnswer(qId: Int, answerId: String, time: Float)
+    + getRank(): Integer
+}
+
+class "Admin (Quản trò)" as Admin {
+    + username: String
+    --
+    + createRoom()
+    + startGame()
+    + nextQuestion()
+    + showLeaderboard()
+    + kickPlayer(playerId: String)
+}
+
+class "GameSession (Phiên chơi)" as Session {
+    + roomId: String
+    + pinCode: String
+    + status: Enum {WAITING, PLAYING, END}
+    + currentQuestionIndex: Integer
+    + players: List<Player>
+    --
+    + addPlayer(p: Player)
+    + removePlayer(p: Player)
+    + broadcast(event: String, data: Any)
+    + calculateScore(timeLeft: Float): Integer
+}
+
+' Đây là cấu trúc Object quan trọng trong SRS (Mục IV)
+class "Question (Câu hỏi)" as Question {
+    + id: Integer
+    + question: String
+    + image: String
+    + duration: Integer
+    + correctId: String
+    --
+    + validateAnswer(answerId: String): Boolean
+}
+
+class "Option (Đáp án)" as Option {
+    + id: String {A, B, C, D}
+    + text: String
+    + color: HexColor
+}
+
+' --- MỐI QUAN HỆ ---
+
+' 1. Một Phiên chơi có 1 Admin điều khiển
+Session "1" *-- "1" Admin : Quản lý bởi >
+
+' 2. Một Phiên chơi chứa nhiều Player
+Session "1" o-- "0..*" Player : Chứa >
+
+' 3. Một Phiên chơi load nhiều Câu hỏi từ file data.js
+Session "1" *-- "1..*" Question : Sử dụng >
+
+' 4. Một Câu hỏi có 4 Đáp án
+Question "1" *-- "4" Option : Bao gồm >
+
+' 5. Quan hệ phụ thuộc (Dependency)
+Player ..> Question : Trả lời >
+
+' --- GHI CHÚ ---
+note right of Question
+  Struct theo SRS Mục IV:
+  Dữ liệu lấy từ file data.js
+  hoặc Excel import vào.
+end note
+
+note bottom of Session
+  Logic tính điểm (calculateScore)
+  nằm ở đây để đảm bảo công bằng
+  (Server-side logic).
+end note
+
+@enduml

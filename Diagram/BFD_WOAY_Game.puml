@@ -1,0 +1,66 @@
+@startwbs BFD_WOAY_Game
+
+' --- CẤU HÌNH GIAO DIỆN ---
+<style>
+wbsDiagram {
+  ' Màu nền trắng, đường nối cong nhẹ cho mềm mại
+  BackgroundColor white
+  LineColor #444444
+  
+  ' NODE GỐC (LEVEL 0) - Màu Cam Woay
+  .root {
+      BackgroundColor #FF6600
+      FontColor White
+      FontSize 16
+      FontStyle Bold
+      RoundCorner 15
+      Padding 15
+  }
+  
+  ' NODE CẤP 1 (LEVEL 1) - Màu Xanh đậm (Tạo hình Đinh ba)
+  .level1 {
+      BackgroundColor #003366
+      FontColor White
+      FontSize 14
+      FontStyle Bold
+      RoundCorner 10
+  }
+  
+  ' NODE CẤP 2 (LEVEL 2) - Màu Xám nhẹ (Chi tiết chức năng)
+  node {
+      BackgroundColor #F0F4F8
+      FontColor Black
+      FontSize 12
+      RoundCorner 5
+      MaximumWidth 150 
+  }
+}
+</style>
+
+' --- NỘI DUNG SƠ ĐỒ ---
+* Hệ thống Woay Trivia Blast\n(Real-time Game) <<root>>
+
+' --- NHÁNH 1: QUẢN TRỊ & ĐIỀU PHỐI (MC) ---
+** Phân hệ MC (Admin) <<level1>>
+*** Quản lý Sảnh chờ (Lobby)\n(QR, Nhạc, Đếm người)
+*** Điều khiển Trò chơi\n(Start, Next, Result)
+*** Vinh danh & Xếp hạng\n(Leaderboard, Effect)
+*** Quản lý bảng câu hỏi \n(CRUD Câu hỏi)
+
+' --- NHÁNH 2: NGƯỜI CHƠI (PLAYER) ---
+** Phân hệ Người Chơi (Player) <<level1>>
+*** Tham gia (Join Game)\n(Quét mã, Đặt tên, Chọn nhân vật)
+*** Tương tác nhanh \n(Thả Emoji, Chat nhanh)
+*** Tham gia trả lời câu hỏi\n(Chọn đáp án 4 màu)
+*** Chọn các quyền trợ giúp\(50/50, Hỏi tổ tư vấn)
+*** Xem phản hồi Kết quả\n(Xem điểm, Meme)
+
+' --- NHÁNH 3: DỮ LIỆU & HỆ THỐNG (CORE) ---
+' (Thêm nhánh này dựa trên mục IV SRS để tạo thế kiềng 3 chân vững chắc)
+** Quản lý Dữ liệu (System) <<level1>>
+*** Cấu hình Bộ câu hỏi\n(File data.js / Excel)
+*** Xử lý Real-time\n(Socket, Sync điểm)
+*** Lưu trữ tạm thời\n(Mock Data browser)
+*** Thống kê \n(Xếp hạng người chơi,...)
+
+@endwbs

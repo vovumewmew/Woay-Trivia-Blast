@@ -1,0 +1,66 @@
+@startuml Seq_Admin
+!theme plain
+autonumber "<b>(Step 0)"
+
+' --- ĐỊNH NGHĨA THÀNH PHẦN ---
+actor "MC (Quản trò)" as Admin
+participant "Admin Dashboard\n(Web Controller)" as Web
+participant "Game Server" as Server
+participant "Màn hình Máy chiếu\n(Projector View)" as Screen
+actor "Tất cả Player" as Players
+
+' --- LUỒNG CHÍNH ---
+
+== Bước 1: Bắt đầu câu hỏi ==
+Admin -> Web : Bấm nút "Next Question"
+activate Web
+Web -> Server : Request: NEXT_QUESTION
+activate Server
+
+    ' Server phát lệnh đồng loạt (Broadcast)
+    par Broadcast (Song song)
+        Server -->> Screen : Hiển thị Câu hỏi & Nhạc nền
+        Server -->> Players : Hiển thị 4 nút màu (Mở khóa)
+    end
+    
+    Server -> Server : Bắt đầu đếm ngược (Countdown)
+
+deactivate Server
+deactivate Web
+
+== Bước 2: Trong lúc chờ (Real-time) ==
+loop Mỗi giây (Tick) hoặc khi có người trả lời
+    Players -->> Server : Gửi đáp án...
+    Server -->> Web : Cập nhật số người đã trả lời (Live Chart)
+    Web -> Admin : Thấy biểu đồ cột thay đổi
+end
+
+== Bước 3: Hết giờ / Show Kết quả ==
+Admin -> Web : Bấm nút "Show Result" (hoặc Hết giờ)
+activate Web
+Web -> Server : Request: SHOW_RESULT
+activate Server
+
+    Server -> Server : Chốt sổ điểm số (Freeze)
+
+    par Broadcast Kết quả
+        Server -->> Screen : Hiện đáp án đúng + Thống kê %
+        Server -->> Players : Hiện kết quả cá nhân
+    end
+
+deactivate Server
+deactivate Web
+
+== Bước 4: Vinh danh (Cao trào) ==
+Admin -> Web : Bấm nút "Show Leaderboard"
+activate Web
+Web -> Server : Request: GET_TOP_5
+activate Server
+
+    Server -> Server : Sort danh sách điểm cao nhất
+    Server -->> Screen : Hiển thị Top 5 + Hiệu ứng Confetti
+    
+deactivate Server
+deactivate Web
+
+@enduml

@@ -1,0 +1,78 @@
+@startuml Activity_GameLoop
+' Cấu hình giao diện
+skinparam ActivityBackgroundColor #White
+skinparam ActivityBorderColor #333333
+skinparam ActivityDiamondBackgroundColor #FF6600
+skinparam ActivityDiamondBorderColor #CC5200
+
+' Tiêu đề
+title LUỒNG HOẠT ĐỘNG: VÒNG LẶP CÂU HỎI (GAME LOOP)
+
+' Phân làn trách nhiệm (Swimlanes)
+|#E6F2FF|MC (Quản trò)|
+|#FFF0E6|Hệ thống (Server)|
+|#E6FFE6|Player (Người chơi)|
+
+' Bắt đầu
+|MC (Quản trò)|
+start
+:Chọn bộ câu hỏi;
+:Bấm nút "Bắt đầu Game";
+
+|Hệ thống (Server)|
+:Load dữ liệu câu hỏi;
+:Reset điểm số người chơi;
+
+' BẮT ĐẦU VÒNG LẶP (LOOP)
+repeat :Lấy câu hỏi tiếp theo (i++);
+
+    |Hệ thống (Server)|
+    :Broadcast: Hiển thị câu hỏi & Nhạc nền;
+    
+    fork
+        :Bắt đầu đếm ngược (Timer 15s);
+    fork again
+        |Player (Người chơi)|
+        :Nhìn màn hình lớn;
+        if (Chọn đáp án?) then (Có chọn)
+            :Gửi đáp án (Màu sắc);
+        else (Không kịp)
+            :Hết giờ (Timeout);
+        endif
+    end fork
+
+    |Hệ thống (Server)|
+    :Khóa câu trả lời;
+    
+    if (Đáp án đúng?) then (Yes)
+        :Tính điểm = Điểm gốc + Thời gian dư;
+        :Gửi Meme "Tuyệt vời" + Pháo hoa;
+    else (No / Sai)
+        :Điểm = 0;
+        :Gửi Meme "Chia buồn" + Màn hình xám;
+    endif
+
+    |Player (Người chơi)|
+    :Xem kết quả cá nhân;
+
+    |MC (Quản trò)|
+    :Bấm "Hiện Bảng Xếp Hạng";
+    
+    |Hệ thống (Server)|
+    :Tính toán Top 5;
+    :Hiển thị BXH lên màn hình chiếu;
+
+    |MC (Quản trò)|
+    :Tương tác / Khịa người chơi;
+    :Bấm "Câu tiếp theo";
+
+' ĐIỀU KIỆN LẶP
+|Hệ thống (Server)|
+repeat while (Còn câu hỏi trong gói?) is (Yes)
+-> No (Hết câu hỏi);
+
+:Tổng kết điểm cuối cùng;
+:Hiển thị Podium (Top 3 chung cuộc);
+
+stop
+@enduml

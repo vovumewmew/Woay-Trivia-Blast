@@ -1,0 +1,74 @@
+@startuml Use_case_Player_Pro
+left to right direction
+skinparam packageStyle rectangle
+actor "Nhân viên (Woayer)" as Player
+
+package "Hệ thống Player (Mobile)" {
+    
+    ' --- NHÓM 1: THIẾT LẬP ---
+    usecase "Cài đặt (Âm thanh/Rung)" as Settings
+
+    ' --- NHÓM 2: THAM GIA ---
+    usecase "Tham gia Game" as Join
+    usecase "Quét mã QR" as ScanQR
+    usecase "Nhập biệt danh" as EnterName
+    usecase "Chọn Avatar/Nhân vật" as SelectCharacter
+    usecase "Tự động kết nối lại\n(Khi rớt mạng)" as Reconnect
+
+    ' --- NHÓM 3: SẢNH CHỜ (LOBBY) ---
+    usecase "Ở trong Sảnh chờ" as InLobby
+    usecase "Chat nhanh (Quick Chat)" as Chat
+    usecase "Thả Emoji (Reaction)" as Emoji
+    usecase "Xem danh sách đối thủ" as ViewPlayer
+
+    ' --- NHÓM 4: TRONG TRẬN (IN-GAME) ---
+    usecase "Chơi game" as Play
+    usecase "Chọn đáp án" as Submit
+    usecase "Dùng quyền trợ giúp\n(50/50, Hỏi tổ tư vấn)" as Help
+    usecase "Xem Meme chờ" as ViewWait
+    
+    ' --- NHÓM 5: KẾT QUẢ ---
+    usecase "Xem bảng vàng" as ViewResult
+
+    ' === MỐI QUAN HỆ ===
+    
+    ' Thiết lập dùng lúc nào cũng được
+    Player --> Settings
+
+    ' Tham gia
+    Player --> Join
+    Join ..> ScanQR : <<include>>
+    Join ..> EnterName : <<include>>
+    Join ..> SelectCharacter: <<include>>
+    
+    ' Tính năng ẩn nhưng quan trọng
+    Join <.. Reconnect : <<extend>>
+
+    ' Sảnh chờ
+    Player --> InLobby
+    InLobby <.. Chat: <<extend>>
+    InLobby <.. Emoji: <<extend>>
+    InLobby <.. ViewPlayer: <<extend>>
+
+    ' Chơi game
+    Player --> Play
+    Play ..> Submit : <<include>>
+    Play ..> ViewWait : <<include>>
+    
+    ' Thêm quyền trợ giúp cho kịch tính (Sáng tạo thêm)
+    Play <.. Help : <<extend>>
+
+    ' Kết quả
+    Player --> ViewResult
+    
+    note right of Emoji
+      Sáng tạo: Bấm icon
+      bay lên màn hình MC
+    end note
+    
+    note right of Help
+      Sáng tạo: Thêm item
+      để lật ngược tình thế
+    end note
+}
+@enduml 
