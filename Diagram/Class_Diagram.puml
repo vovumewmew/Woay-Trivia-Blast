@@ -78,17 +78,5 @@ Question "1" *-- "4" Option : Bao gồm >
 ' 5. Quan hệ phụ thuộc (Dependency)
 Player ..> Question : Trả lời >
 
-' --- GHI CHÚ ---
-note right of Question
-  Struct theo SRS Mục IV:
-  Dữ liệu lấy từ file data.js
-  hoặc Excel import vào.
-end note
-
-note bottom of Session
-  Logic tính điểm (calculateScore)
-  nằm ở đây để đảm bảo công bằng
-  (Server-side logic).
-end note
 
 @enduml

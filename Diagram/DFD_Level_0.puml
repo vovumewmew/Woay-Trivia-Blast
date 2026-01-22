@@ -30,7 +30,7 @@ skinparam rectangle<<System>> {
 ' --- ĐỊNH NGHĨA CÁC KHỐI ---
 
 rectangle "MC / QUẢN TRÒ\n(Admin)" as MC <<Actor>>
-rectangle "WOAYER / NHÂN VIÊN\n(Player)" as Player <<Actor>>
+rectangle "WOAYER / NGƯỜI CHƠI\n(Player)" as Player <<Actor>>
 
 ' Hệ thống nằm giữa - Đại diện cho toàn bộ Mini-game
 rectangle "HỆ THỐNG\nWOAY TRIVIA BLAST" as System <<System>>
@@ -43,8 +43,8 @@ MC --> System : 1. Cấu hình phòng (Nhạc, QR)\n2. Bộ câu hỏi (Data/Exc
 System --> MC : 1. Thông tin Sảnh chờ (Số lượng người)\n2. Bảng xếp hạng (Leaderboard)\n3. Thống kê đáp án (Real-time)
 
 ' 2. Luồng Player (Tương tác)
-Player --> System : 1. Yêu cầu tham gia (Join)\n2. Thông tin định danh (Tên/Avatar)\n3. Câu trả lời (Màu sắc)
+Player --> System : 1. Yêu cầu tham gia (Join)\n2. Thông tin định danh (Tên/Avatar)\n3. Câu trả lời
 
-System --> Player : 1. Trạng thái kết nối (Thành công/Lỗi)\n2. Nội dung câu hỏi & Đáp án\n3. Kết quả cá nhân (Điểm/Meme)
+System --> Player : 1. Trạng thái kết nối (Thành công/Lỗi)\n2. Nội dung câu hỏi & Đáp án\n3. Kết quả cá nhân (Điểm/Ảnh vui nhộn)
 
 @enduml

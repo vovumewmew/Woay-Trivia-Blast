@@ -1,0 +1,63 @@
+@startuml DFD_Level_2_Process2
+!theme plain
+top to bottom direction
+skinparam roundCorner 10
+
+' --- CẤU HÌNH GIAO DIỆN ---
+skinparam usecase {
+    ArrowColor Black
+}
+skinparam database {
+    BackgroundColor White
+    BorderColor Black
+}
+skinparam rectangle {
+    BackgroundColor White
+    BorderColor Black
+    FontStyle Bold
+}
+
+' --- CÁC THÀNH PHẦN BÊN NGOÀI (CONTEXT) ---
+rectangle "MC (Quản trò)" as MC
+rectangle "Player & Screen" as Clients
+rectangle "3.0 Xử lý Trả lời" as P3
+
+' --- CÁC KHO DỮ LIỆU ---
+database "D1. Danh sách Người chơi\n(In-memory)" as D1
+database "D2. Ngân hàng Câu hỏi\n(File data.js)" as D2
+
+' --- TIẾN TRÌNH CON (SUB-PROCESSES) ---
+package "2.0 Điều khiển Vòng chơi (Game Control)" {
+    usecase "2.1 Kiểm tra & Khởi tạo\n(Validate State)" as P2_1
+    usecase "2.2 Truy xuất Nội dung\n(Fetch Question)" as P2_2
+    usecase "2.3 Quản lý Đồng hồ & Broadcast\n(Timer & Sync)" as P2_3
+    usecase "2.4 Chốt phiên Câu hỏi\n(Close Question)" as P2_4
+}
+
+' --- LUỒNG DỮ LIỆU ---
+
+' 1. MC ra lệnh
+MC --> P2_1 : Lệnh (Start / Next / Stop)
+
+' 2. Validate điều kiện
+D1 --> P2_1 : Kiểm tra số lượng người online
+note right of P2_1
+  Phải có người chơi (>0)
+  mới cho bắt đầu
+end note
+
+' 3. Lấy dữ liệu câu hỏi
+P2_1 --> P2_2 : Index câu hỏi tiếp theo
+D2 --> P2_2 : Lấy Object câu hỏi\n(Text, Image, Duration, Options)
+
+' 4. Bắt đầu đếm ngược & Đồng bộ
+P2_2 --> P2_3 : Dữ liệu câu hỏi (Payload)
+P2_3 --> Clients : Sự kiện: NEW_QUESTION\n(Hiển thị UI & Nhạc nền)
+P2_3 --> P3 : Kích hoạt trạng thái "Đang nhận câu trả lời"
+
+' 5. Hết giờ
+P2_3 --> P2_4 : Tín hiệu: Timeout (Hết 15s)
+P2_4 --> P3 : Lệnh: STOP_SUBMIT (Khóa trả lời)
+MC --> P2_4 : Lệnh: Show Result (Chủ động dừng)
+
+@enduml

@@ -10,6 +10,8 @@ package "Hệ thống Player (Mobile)" {
 
     ' --- NHÓM 2: THAM GIA ---
     usecase "Tham gia Game" as Join
+    usecase "Truy cập" as Access
+    usecase "Nhập mã Game" as EnterCode
     usecase "Quét mã QR" as ScanQR
     usecase "Nhập biệt danh" as EnterName
     usecase "Chọn Avatar/Nhân vật" as SelectCharacter
@@ -37,7 +39,9 @@ package "Hệ thống Player (Mobile)" {
 
     ' Tham gia
     Player --> Join
-    Join ..> ScanQR : <<include>>
+    Join ..> Access : <<include>>
+    Access --|> EnterCode
+    Access --|> ScanQR
     Join ..> EnterName : <<include>>
     Join ..> SelectCharacter: <<include>>
     

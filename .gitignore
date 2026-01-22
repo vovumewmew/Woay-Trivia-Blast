@@ -1,0 +1,62 @@
+# --- Dependencies (Thư viện) ---
+node_modules/
+.pnp
+.pnp.js
+
+# --- Testing ---
+coverage/
+.nyc_output/
+
+# --- Production Build (File đóng gói) ---
+build/
+dist/
+
+# --- Environment Variables (BẢO MẬT - Không bao giờ commit file này) ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+
+# --- Logs ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# --- OS System Files (File rác hệ điều hành) ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- IDE / Editor (Cấu hình máy cá nhân) ---
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- PlantUML (Sơ đồ) ---
+# Chỉ nên commit file code (.puml), không nên commit ảnh (.png/.svg)
+# trừ khi bạn dùng ảnh đó cho file README.
+# Bỏ comment 2 dòng dưới nếu bạn không muốn lưu ảnh sơ đồ:
+# *.png
+# *.svg
+# Thư mục output mặc định của extension PlantUML
+out/
+Document/
+
+# --- Optional (Tùy chọn khác) ---
+# Nếu dự án có Backend Node.js
+pid
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# --- Ngoại lệ (Exceptions) ---
+# Giữ lại file này nếu bạn muốn chia sẻ extension gợi ý cho team
+!.vscode/extensions.json

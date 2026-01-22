@@ -42,25 +42,53 @@ wbsDiagram {
 
 ' --- NHÁNH 1: QUẢN TRỊ & ĐIỀU PHỐI (MC) ---
 ** Phân hệ MC (Admin) <<level1>>
-*** Quản lý Sảnh chờ (Lobby)\n(QR, Nhạc, Đếm người)
-*** Điều khiển Trò chơi\n(Start, Next, Result)
-*** Vinh danh & Xếp hạng\n(Leaderboard, Effect)
-*** Quản lý bảng câu hỏi \n(CRUD Câu hỏi)
+*** Quản lý Sảnh chờ (Lobby)
+**** Sinh mã (QR/PIN)
+**** Hiển thị số lượng người chơi
+**** Hiện hiệu ứng
+*** Điều khiển Trò chơi
+**** Bắt đầu trò chơi
+**** Chuyển câu hỏi
+**** Hiện kết quả
+**** Tạm dừng/Kết thúc trò chơi
+*** Vinh danh & Xếp hạng
+**** Hiển thị bảng xếp hạng
+**** Kích hoạt hiệu ứng chúc mừng
+*** Quản lý bảng câu hỏi
+**** CRUD Câu hỏi
+**** Nạp nhanh câu hỏi
+
 
 ' --- NHÁNH 2: NGƯỜI CHƠI (PLAYER) ---
 ** Phân hệ Người Chơi (Player) <<level1>>
-*** Tham gia (Join Game)\n(Quét mã, Đặt tên, Chọn nhân vật)
-*** Tương tác nhanh \n(Thả Emoji, Chat nhanh)
-*** Tham gia trả lời câu hỏi\n(Chọn đáp án 4 màu)
-*** Chọn các quyền trợ giúp\(50/50, Hỏi tổ tư vấn)
-*** Xem phản hồi Kết quả\n(Xem điểm, Meme)
+*** Tham gia (Join Game)
+**** Quét QR/Nhập PIN
+**** Nhập tên
+**** Chọn nhân vật
+*** Tương tác nhanh 
+**** Gửi các biểu tượng cảm xúc (Send Emoji)
+**** Trò chuyện trực tiếp nhanh\n(Quick Chat)
+*** Tham gia trả lời câu hỏi
+**** Hiển thị lựa chọn
+**** Hiển thị màn hình chờ
+*** Chọn các quyền trợ giúp
+*** Xem phản hồi Kết quả
+**** Hiển thị số điểm đạt được
+**** Hiển thị hiệu ứng thưởng/phạt
+
 
 ' --- NHÁNH 3: DỮ LIỆU & HỆ THỐNG (CORE) ---
 ' (Thêm nhánh này dựa trên mục IV SRS để tạo thế kiềng 3 chân vững chắc)
 ** Quản lý Dữ liệu (System) <<level1>>
-*** Cấu hình Bộ câu hỏi\n(File data.js / Excel)
-*** Xử lý Real-time\n(Socket, Sync điểm)
-*** Lưu trữ tạm thời\n(Mock Data browser)
-*** Thống kê \n(Xếp hạng người chơi,...)
+*** Cấu hình Bộ câu hỏi
+**** Phân tích dữ liệu
+**** Xử lí hợp lệ\n(Validate dữ liệu)
+*** Xử lý Real-time
+**** Đồng bộ trạng thái giữa MC(Admin) và Người chơi(Player)
+**** Xử lý kết quả
+*** Lưu trữ tạm thời
+*** Thống kê 
+**** Xử lí xếp hạng
+**** Thống kê tỷ lệ chọn
 
 @endwbs

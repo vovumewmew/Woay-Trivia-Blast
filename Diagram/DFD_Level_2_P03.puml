@@ -1,0 +1,43 @@
+@startuml DFD_Level_2_Process3
+!theme plain
+top to bottom direction
+
+' --- TÁC NHÂN LIÊN QUAN ---
+rectangle "Player" as Player
+database "D2. Kho câu hỏi" as DB_Question
+database "D3. Bảng điểm" as DB_Score
+
+' --- PROCESS CON (MỨC 2) ---
+package "3.0 Xử lý Trả lời & Tính điểm" {
+    usecase "3.1 Tiếp nhận & Validate" as P3_1
+    usecase "3.2 So khớp Đáp án" as P3_2
+    usecase "3.3 Tính toán Điểm số\n(Thuật toán Time-based)" as P3_3
+    usecase "3.4 Phản hồi Kết quả" as P3_4
+}
+
+' --- LUỒNG DỮ LIỆU ---
+
+' 1. Player gửi tín hiệu
+Player --> P3_1 : Gói tin (PlayerID, AnswerID, TimeStamp)
+
+' 2. Validate xem còn trong thời gian cho phép không
+P3_1 --> P3_2 : Dữ liệu hợp lệ
+
+' 3. So khớp với đáp án đúng từ Database
+DB_Question --> P3_2 : Lấy CorrectID câu hiện tại
+P3_2 --> P3_3 : Kết quả (Đúng/Sai) & Thời gian còn lại
+
+' 4. Tính điểm (Logic SRS: Điểm gốc + Thời gian dư)
+P3_3 --> DB_Score : Cập nhật điểm tổng (Update Score)
+P3_3 --> P3_4 : Thông tin điểm vừa nhận
+
+' 5. Phản hồi ra màn hình
+P3_4 --> Player : Hiển thị Meme (Vui/Buồn) + Điểm
+
+note right of P3_3
+  Logic SRS:
+  Điểm = Điểm gốc + Thời gian còn lại
+  (Càng nhanh điểm càng cao)
+end note
+
+@enduml
