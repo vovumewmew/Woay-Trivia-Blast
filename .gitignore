@@ -1,17 +1,15 @@
-# --- Dependencies (Thư viện) ---
+# ==============================================
+# QUẢN LÝ THƯ VIỆN (DEPENDENCIES)
+# ==============================================
+# Thư mục chứa hàng ngàn file thư viện tải về - Tuyệt đối không commit
 node_modules/
 .pnp
 .pnp.js
 
-# --- Testing ---
-coverage/
-.nyc_output/
-
-# --- Production Build (File đóng gói) ---
-build/
-dist/
-
-# --- Environment Variables (BẢO MẬT - Không bao giờ commit file này) ---
+# ==============================================
+# MÔI TRƯỜNG & BẢO MẬT (QUAN TRỌNG)
+# ==============================================
+# Chứa API Key, Port, Password DB... - Tuyệt đối không commit
 .env
 .env.local
 .env.development.local
@@ -19,7 +17,17 @@ dist/
 .env.production.local
 *.pem
 
-# --- Logs ---
+# ==============================================
+# FILE ĐÓNG GÓI (BUILD OUTPUT)
+# ==============================================
+# Kết quả sau khi chạy 'npm run build' (Vite tạo dist, CRA tạo build)
+build/
+dist/
+
+# ==============================================
+# LOGS & DEBUG
+# ==============================================
+# File báo lỗi khi chạy npm/yarn
 logs
 *.log
 npm-debug.log*
@@ -27,36 +35,52 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# --- OS System Files (File rác hệ điều hành) ---
+# ==============================================
+# FILE RÁC HỆ ĐIỀU HÀNH (OS FILES)
+# ==============================================
+# File sinh ra bởi Mac/Windows
 .DS_Store
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-# --- IDE / Editor (Cấu hình máy cá nhân) ---
+# ==============================================
+# CẤU HÌNH IDE/EDITOR (MÁY CÁ NHÂN)
+# ==============================================
+# Cấu hình riêng của VS Code hoặc WebStorm
 .idea/
 .vscode/
 *.swp
 *.swo
 
-# --- PlantUML (Sơ đồ) ---
-# Chỉ nên commit file code (.puml), không nên commit ảnh (.png/.svg)
-# trừ khi bạn dùng ảnh đó cho file README.
-# Bỏ comment 2 dòng dưới nếu bạn không muốn lưu ảnh sơ đồ:
-# *.png
-# *.svg
-# Thư mục output mặc định của extension PlantUML
-out/
-Document/
+# --- Ngoại lệ (Exceptions) ---
+# Giữ lại file gợi ý extension để cả team cùng cài giống nhau
+!.vscode/extensions.json
 
-# --- Optional (Tùy chọn khác) ---
-# Nếu dự án có Backend Node.js
+# ==============================================
+# TÀI LIỆU & SƠ ĐỒ (DOCUMENTATION)
+# ==============================================
+# Thư mục output ảnh của PlantUML
+out/
+
+# Thư mục chứa báo cáo Word/PDF nặng (nếu không muốn đẩy lên Git)
+Document/
+*.docx
+*.pdf
+
+# File cấu trúc cây thư mục (nếu chỉ dùng để xem)
+tree.txt
+
+# ==============================================
+# KHÁC (MISC)
+# ==============================================
+# File tiến trình chạy ngầm (thường thấy ở backend)
 pid
 pids
 *.pid
 *.seed
 *.pid.lock
 
-# --- Ngoại lệ (Exceptions) ---
-# Giữ lại file này nếu bạn muốn chia sẻ extension gợi ý cho team
-!.vscode/extensions.json
+# Thư mục coverage khi chạy test
+coverage/
+.nyc_output/
