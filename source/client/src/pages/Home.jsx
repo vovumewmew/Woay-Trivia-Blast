@@ -1,12 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Home = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  // Lấy username từ state khi chuyển trang, nếu không có thì mặc định là "Khách"
+  const username = location.state?.username || "Khách";
 
   // Danh sách các tính năng (Menu)
   const menuItems = [
+    { id: 0, title: "Tham Gia Game", icon: "🎮", color: "bg-green-600", desc: "Vào phòng chơi ngay" },
     { id: 1, title: "Tạo Game Mới", icon: "🎭", color: "bg-red-500", desc: "Làm Host tổ chức game" },
     { id: 2, title: "Lịch Sử Đấu", icon: "📜", color: "bg-orange-500", desc: "Xem lại thành tích" },
     { id: 3, title: "Bảng Xếp Hạng", icon: "🏆", color: "bg-yellow-500", desc: "Vinh danh top server" },
@@ -32,7 +36,7 @@ const Home = () => {
         <div className="max-w-4xl mx-auto flex flex-wrap justify-between items-center relative z-10 gap-4">
           <div>
             <h1 className="text-3xl font-black text-yellow-300">WOAY</h1>
-            <p className="text-red-100 text-sm">Chúc mừng năm mới 2026 🐍</p>
+            <p className="text-red-100 text-sm">Chúc mừng năm mới 2026 🐎</p>
           </div>
 
           <div className="flex items-center gap-3">
@@ -49,7 +53,7 @@ const Home = () => {
               <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-red-700 font-bold">
                 V
               </div>
-              <span className="font-bold text-yellow-100">VoVu01</span>
+              <span className="font-bold text-yellow-100">{username}</span>
             </div>
           </div>
         </div>
@@ -81,7 +85,15 @@ const Home = () => {
               whileHover={{ scale: 1.03, rotate: 1 }}
               whileTap={{ scale: 0.98 }}
               className={`${item.color} p-6 rounded-2xl shadow-lg cursor-pointer border-2 border-yellow-400/30 relative overflow-hidden group`}
-              onClick={() => console.log("Clicked", item.title)}
+              onClick={() => {
+                if (item.id === 1) {
+                  alert("Tính năng đang trong giai đoạn phát triển 🚧");
+                } else if (item.id === 0) {
+                  navigate('/', { state: { username: username } });
+                } else {
+                  console.log("Clicked", item.title);
+                }
+              }}
             >
               {/* Họa tiết nền mờ */}
               <div className="absolute -right-4 -bottom-4 text-8xl opacity-20 group-hover:scale-110 transition-transform">
