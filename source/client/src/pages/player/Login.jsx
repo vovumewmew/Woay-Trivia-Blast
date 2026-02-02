@@ -63,22 +63,37 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-to-b from-red-800 via-red-600 to-orange-500 flex items-center justify-center overflow-hidden relative">
       {/* --- THANH CÔNG CỤ (Toolbar) --- */}
       <div className="absolute top-4 left-4 flex items-center gap-2 bg-yellow-50 p-2 rounded-2xl border-2 border-yellow-200 shadow-lg z-50">
-        <button 
-          onClick={() => navigate('/landing')}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-yellow-100 text-red-700 font-bold text-sm transition-colors"
-          title="Thông tin đồ án"
-        >
-          <span className="text-lg">ℹ️</span>
-          <span>Giới thiệu</span>
-        </button>
-        <button 
-          onClick={() => isLoggedIn ? alert('Tính năng tạo game đang phát triển! 🚧') : navigate('/login')}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 font-bold text-sm shadow-sm transition-colors"
-          title="Tạo phòng chơi mới"
-        >
-          <span className="text-lg">🎭</span>
-          <span>Tạo Game</span>
-        </button>
+        {/* Nút Giới thiệu */}
+        <div className="relative group">
+          <button 
+            onClick={() => navigate('/landing')}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-yellow-100 text-red-700 font-bold text-sm transition-colors"
+          >
+            <span className="text-lg">ℹ️</span>
+            <span>Giới thiệu</span>
+          </button>
+          {/* Tooltip */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 px-3 py-2 bg-red-800 text-yellow-200 text-xs font-bold rounded-lg shadow-xl border border-yellow-400 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 pointer-events-none whitespace-nowrap z-50">
+            Xem thông tin sản phẩm
+            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-red-800 border-t border-l border-yellow-400 rotate-45"></div>
+          </div>
+        </div>
+
+        {/* Nút Tạo Game */}
+        <div className="relative group">
+          <button 
+            onClick={() => isLoggedIn ? alert('Tính năng tạo game đang phát triển! 🚧') : navigate('/login')}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 font-bold text-sm shadow-sm transition-colors"
+          >
+            <span className="text-lg">🎭</span>
+            <span>Tạo Game</span>
+          </button>
+          {/* Tooltip */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 px-3 py-2 bg-red-800 text-yellow-200 text-xs font-bold rounded-lg shadow-xl border border-yellow-400 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 pointer-events-none whitespace-nowrap z-50">
+            Tổ chức phòng chơi mới
+            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-red-800 border-t border-l border-yellow-400 rotate-45"></div>
+          </div>
+        </div>
       </div>
 
       {/* Nút Đăng Nhập HOẶC Thông tin User (Góc phải trên) */}
