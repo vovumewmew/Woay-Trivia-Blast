@@ -1,0 +1,1 @@
+SELECT * FROM woay_trivia.rooms;

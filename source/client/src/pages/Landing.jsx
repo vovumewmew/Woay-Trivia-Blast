@@ -3,8 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaFacebook, FaGithub, FaEnvelope, FaYoutube } from 'react-icons/fa';
 
+const SESSION_USER_KEY = 'woay_session_user';
+
 const Landing = () => {
   const navigate = useNavigate();
+
+  const handleJoinGame = () => {
+    try {
+      const rawUser = localStorage.getItem(SESSION_USER_KEY);
+      if (rawUser) {
+        const user = JSON.parse(rawUser);
+        const username = user.display_name || user.username;
+        navigate('/', { state: { username } });
+        return;
+      }
+    } catch (e) {
+      // Bỏ qua nếu lỗi parse
+    }
+    navigate('/');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-red-800 via-red-600 to-orange-500 text-white overflow-y-auto font-sans">
@@ -15,7 +32,7 @@ const Landing = () => {
           <h1 className="text-2xl font-black text-yellow-400 tracking-wider">WOAY PROJECT</h1>
         </div>
         <button 
-          onClick={() => navigate('/')}
+          onClick={handleJoinGame}
           className="px-6 py-2 bg-yellow-400 text-red-800 font-bold rounded-full shadow-lg hover:bg-yellow-300 hover:scale-105 transition-all border-2 border-yellow-200"
         >
           Vào Game Ngay 🎮
@@ -134,7 +151,7 @@ const Landing = () => {
           <div>
             <h3 className="text-xl font-bold text-white mb-4 border-b-2 border-yellow-500/30 pb-2 inline-block">Liên Kết Nhanh</h3>
             <ul className="space-y-3 text-sm font-medium">
-              <li><button onClick={() => navigate('/')} className="hover:text-yellow-400 transition-colors flex items-center gap-2">🏠 Trang Chủ</button></li>
+              <li><button onClick={handleJoinGame} className="hover:text-yellow-400 transition-colors flex items-center gap-2">🏠 Trang Chủ</button></li>
               <li><button onClick={() => navigate('/login')} className="hover:text-yellow-400 transition-colors flex items-center gap-2">🎭 Đăng Nhập Host</button></li>
               <li><a href="#" className="hover:text-yellow-400 transition-colors flex items-center gap-2">📜 Điều Khoản Sử Dụng</a></li>
               <li><a href="#" className="hover:text-yellow-400 transition-colors flex items-center gap-2">🔒 Chính Sách Bảo Mật</a></li>

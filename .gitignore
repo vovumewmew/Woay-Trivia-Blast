@@ -84,3 +84,5 @@ pids
 # Thư mục coverage khi chạy test
 coverage/
 .nyc_output/
+
+.env
